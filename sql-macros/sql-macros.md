@@ -2,21 +2,18 @@
 
 ## Introduction
 
-This lab you can learn how to use the SQL Macros  (SQM) to increase developer productivity, simplify collaborative development, and improve code quality.
+In this lab you can learn how to use the SQL Macros  (SQM) to increase developer productivity, simplify collaborative development, and improve code quality.
 
-Estimated Lab Time: n minutes
+Estimated Lab Time: 30 minutes
 
 ### About SQL Macros
 You can create SQL Macros (SQM) to factor out common SQL expressions and statements into reusable, parameterized constructs that can be used in other SQL statements. SQL macros can either be scalar expressions, typically used in `SELECT` lists, `WHERE`, `GROUP` `BY` and `HAVING` clauses, to encapsulate calculations and business logic or can be table expressions, typically used in a `FROM` clause.
 
 ### Objectives
 
-*List objectives for the lab - if this is the intro lab, list objectives for the workshop*
-
 In this lab, you will:
-* Objective 1
-* Objective 2
-* Objective 3
+* Use the SQM as a scalar expression
+* Use the SQM as a table expression
 
 ### Prerequisites
 
@@ -59,7 +56,7 @@ Step 1 opening paragraph.
 2. Create HR schema and sample tables.
 
     ```
-    SQL> @$ORACLE_HOME/demo/schema/human_resources/hr_main.sql WelcomePTS_123# users temp /home/oracle /home/oracle
+    SQL> <copy>@$ORACLE_HOME/demo/schema/human_resources/hr_main.sql WelcomePTS_123# users temp /home/oracle /home/oracle</copy>
     
     specify password for HR as parameter 1:
     
@@ -102,7 +99,7 @@ Step 1 opening paragraph.
 3. Enable auto trace.
 
     ```
-    SQL> @$ORACLE_HOME/sqlplus/admin/plustrce.sql;
+    SQL> <copy>@$ORACLE_HOME/sqlplus/admin/plustrce.sql;</copy>
     SQL> 
     SQL> drop role plustrace;
     drop role plustrace
@@ -140,7 +137,7 @@ Step 1 opening paragraph.
 4. Grant *plustrace* role to HR user.
 
     ```
-    SQL> grant plustrace to hr;
+    SQL> <copy>grant plustrace to hr;</copy>
     
     Grant succeeded.
     
@@ -187,7 +184,7 @@ Step 1 opening paragraph.
 
     
 
-6. E
+    
 
 ## **STEP 2:** Create the SQM as a scalar expression.
 
@@ -212,7 +209,7 @@ Step 1 opening paragraph.
 2. Use the SQM to query the table and display the full employees names.
 
     ```
-    SQL> select m_full_name(first_name,last_name) from employees where rownum<10;
+    SQL> <copy>select m_full_name(first_name,last_name) from employees where rownum<10;</copy>
     
     FULL_NAME(FIRST_NAME,LAST_NAME)
     ----------------------------------------------
@@ -251,7 +248,7 @@ Step 1 opening paragraph.
 4. Using the normal function to display the full employees names.
 
   ```
-  SQL> select f_full_name(first_name,last_name) from employees where rownum<10;
+  SQL> <copy>select f_full_name(first_name,last_name) from employees where rownum<10;</copy>
   
   F_FULL_NAME(FIRST_NAME,LAST_NAME)
   --------------------------------------------------------------------------------
@@ -275,7 +272,7 @@ Step 1 opening paragraph.
 5. Create another SQL Macros which calculate the commission of the employees.
 
     ```
-    SQL> create or replace function m_commission(p_salary number,p_commission_pct number)
+    SQL> <copy>create or replace function m_commission(p_salary number,p_commission_pct number)
     return varchar2 SQL_MACRO(SCALAR)
     as
     begin
@@ -286,7 +283,7 @@ Step 1 opening paragraph.
         return 'p_salary*p_commission_pct';
        end if;
     end;
-    /  2    3    4    5    6    7    8    9   10   11   12  
+    /</copy>  2    3    4    5    6    7    8    9   10   11   12  
     
     Function created.
     
@@ -300,8 +297,8 @@ Step 1 opening paragraph.
     ```
     SQL> set linesize 120
     SQL> set autotrace on
-    SQL> select m_full_name(first_name,last_name) Employee, m_commission(salary,commission_pct) Commission from employees
-    where m_full_name(first_name,last_name) like 'Steven King';  2  
+    SQL> <copy>select m_full_name(first_name,last_name) Employee, m_commission(salary,commission_pct) Commission from employees
+    where m_full_name(first_name,last_name) like 'Steven King';</copy>  
     
     EMPLOYEE				       COMMISSION
     ---------------------------------------------- ----------
@@ -347,7 +344,7 @@ Step 1 opening paragraph.
 7. Create a normal function to calculate the commission.
 
     ```
-    SQL> create or replace function f_commission(p_salary number,p_commission_pct number)
+    SQL> <copy>create or replace function f_commission(p_salary number,p_commission_pct number)
     return number
     as
     begin
@@ -358,7 +355,7 @@ Step 1 opening paragraph.
         return p_salary*p_commission_pct;
        end if;
     end;
-    /  2    3    4    5    6    7    8    9   10   11   12  
+    /</copy>  2    3    4    5    6    7    8    9   10   11   12  
     
     Function created.
     
@@ -372,8 +369,8 @@ Step 1 opening paragraph.
     ```
     SQL> set linesize 120
     SQL> set autotrace on
-    SQL> select f_full_name(first_name,last_name) Employee, f_commission(salary,commission_pct) Commission from employees
-    where f_full_name(first_name,last_name) like 'Steven King';  2  
+    SQL> <copy>select f_full_name(first_name,last_name) Employee, f_commission(salary,commission_pct) Commission from employees
+    where f_full_name(first_name,last_name) like 'Steven King';</copy>   
     
     EMPLOYEE
     ------------------------------------------------------------------------------------------------------------------------
@@ -418,12 +415,12 @@ Step 1 opening paragraph.
     SQL> 
     ```
 
-    Compare the Predicate Information with the SQL Macros, What's the different you found?
+    Compare the Predicate Information with the SQL Macros, What's the different?
 
 9. Now, we can create an index on employees table.
 
     ```
-    SQL> create index emp_full_name on employees(first_name||' '||last_name);
+    SQL> <copy>create index emp_full_name on employees(first_name||' '||last_name);</copy>
     
     Index created.
     ```
@@ -433,8 +430,8 @@ Step 1 opening paragraph.
 10. Run with the SQM again.
 
     ```
-    SQL> select m_full_name(first_name,last_name) Employee, m_commission(salary,commission_pct) Commission from employees
-    where m_full_name(first_name,last_name) like 'Steven King';  2  
+    SQL> <copy>select m_full_name(first_name,last_name) Employee, m_commission(salary,commission_pct) Commission from employees
+    where m_full_name(first_name,last_name) like 'Steven King';</copy>  
     
     EMPLOYEE				       COMMISSION
     ---------------------------------------------- ----------
@@ -481,8 +478,8 @@ Step 1 opening paragraph.
 11. Run with the normal function again. Compere the Execution Plan with SQM.
 
      ```
-     SQL> select f_full_name(first_name,last_name) Employee, f_commission(salary,commission_pct) Commission from employees
-     where f_full_name(first_name,last_name) like 'Steven King';  2  
+     SQL> <copy>select f_full_name(first_name,last_name) Employee, f_commission(salary,commission_pct) Commission from employees
+     where f_full_name(first_name,last_name) like 'Steven King';</copy>  
      
      EMPLOYEE
      ------------------------------------------------------------------------------------------------------------------------
@@ -527,16 +524,16 @@ Step 1 opening paragraph.
      SQL> 
      ```
 
-     It's can not use the index and still full table scan.
+     It can not use the index and still full table scan.
 
-12. sadf
+     
 
 ## **Step 3:**  Use a SQM as a table expression
 
 1. Create a SQM to calculate the budget of a department. If `SCALAR` or `TABLE` is not specified, `TABLE` is the default.
 
    ```
-   SQL> CREATE OR REPLACE FUNCTION budget
+   SQL> <copy>CREATE OR REPLACE FUNCTION budget
    return varchar2 SQL_MACRO
    IS
    BEGIN
@@ -544,7 +541,7 @@ Step 1 opening paragraph.
                 from hr.employees 
                 group by department_id )';
    END;
-   /  2    3    4    5    6    7    8    9  
+   /</copy>  2    3    4    5    6    7    8    9  
    
    Function created.
    
@@ -556,7 +553,7 @@ Step 1 opening paragraph.
 2. Use the SQM to display the result for the departments 10 and 50.
 
    ```
-   SQL> SELECT * FROM budget() WHERE department_id IN (10,50);
+   SQL> <copy>SELECT * FROM budget() WHERE department_id IN (10,50);</copy>
    
    DEPARTMENT_ID	  BUDGET
    ------------- ----------
@@ -571,10 +568,10 @@ Step 1 opening paragraph.
 3. Compare with a simple view. First, create a simple view to display the sum of the salaries per department.
 
    ```
-   SQL> CREATE VIEW v_budget 
+   SQL> <copy>CREATE VIEW v_budget 
     AS SELECT department_id, sum(salary) v_budget 
        FROM hr.employees
-       GROUP BY department_id;  2    3    4  
+       GROUP BY department_id;</copy>  2    3    4  
    
    View created.
    
@@ -583,10 +580,10 @@ Step 1 opening paragraph.
 
    
 
-4. Query the result from the view.
+4. Query the result from the view. You can see the result is same.
 
    ```
-   SQL> SELECT * FROM v_budget WHERE department_id IN (10,50);
+   SQL> <copy>SELECT * FROM v_budget WHERE department_id IN (10,50);</copy>
    
    DEPARTMENT_ID	V_BUDGET
    ------------- ----------
@@ -601,7 +598,7 @@ Step 1 opening paragraph.
 5. Use an SQM as a table expression to display sum of the salaries per department for a particular job.
 
    ```
-   SQL> CREATE OR REPLACE FUNCTION budget_per_job(job_id varchar2)
+   SQL> <copy>CREATE OR REPLACE FUNCTION budget_per_job(job_id varchar2)
    return varchar2 SQL_MACRO
    IS
    BEGIN
@@ -610,7 +607,7 @@ Step 1 opening paragraph.
                 where job_id = budget_per_job.job_id
                 group by department_id )';
    END;
-   /  2    3    4    5    6    7    8    9   10  
+   /</copy>  2    3    4    5    6    7    8    9   10  
    
    Function created.
    
@@ -623,7 +620,7 @@ Step 1 opening paragraph.
 
    ```
    SQL> set autotrace on
-   SQL> SELECT * FROM budget_per_job('SH_CLERK') WHERE department_id=50;
+   SQL> <copy>SELECT * FROM budget_per_job('SH_CLERK') WHERE department_id=50;</copy>
    
    DEPARTMENT_ID	  BUDGET
    ------------- ----------
@@ -669,58 +666,112 @@ Step 1 opening paragraph.
 
    
 
-7. asdf
-
-8. sadf
-
-## **Step 4:** Display the new data dictionary
-
-1. Use the `USER_PROCEDURES` view to display the new values of the `SQL_MACRO` column.
+7. Using a Table Macro with a Polymorphic View. Let's create a table macro named `first_n_rows` which returns the first n rows from table.
 
    ```
-   SQL> COL object_name FORMAT A30
-   SQL> SELECT object_name, sql_macro, object_type FROM user_procedures;
+   SQL> <copy>CREATE FUNCTION first_n_rows (n NUMBER, t DBMS_TF.table_t) 
+   RETURN VARCHAR2 SQL_MACRO IS
+   BEGIN
+      RETURN 'SELECT * FROM t FETCH FIRST first_n_rows.n ROWS ONLY';
+   END;
+   /</copy>  2    3    4    5    6  
    
-   OBJECT_NAME		       SQL_MA OBJECT_TYPE
-   ------------------------------ ------ -------------
-   SECURE_DML		       NULL   PROCEDURE
-   ADD_JOB_HISTORY 	       NULL   PROCEDURE
-   M_COMMISSION		       SCALAR FUNCTION
-   F_FULL_NAME		       NULL   FUNCTION
-   M_FULL_NAME		       SCALAR FUNCTION
-   F_COMMISSION		       NULL   FUNCTION
-   BUDGET			       TABLE  FUNCTION
-   SECURE_EMPLOYEES		      TRIGGER
-   UPDATE_JOB_HISTORY		      TRIGGER
-   
-   9 rows selected.
+   Function created.
    
    SQL> 
    ```
 
    
 
-2. asdf
+8. The query returns the first 2 rows from table employees.
 
-3. adsf
+   ```
+   SQL> <copy>select * from first_n_rows(2,employees);</copy>
+   
+   EMPLOYEE_ID FIRST_NAME		 LAST_NAME
+   ----------- -------------------- -------------------------
+   EMAIL			  PHONE_NUMBER	       HIRE_DATE JOB_ID 	SALARY
+   ------------------------- -------------------- --------- ---------- ----------
+   COMMISSION_PCT MANAGER_ID DEPARTMENT_ID
+   -------------- ---------- -------------
+   	100 Steven		 King
+   SKING			  515.123.4567	       17-JUN-03 AD_PRES	 24000
+   				     90
+   
+   	101 Neena		 Kochhar
+   NKOCHHAR		  515.123.4568	       21-SEP-05 AD_VP		 17000
+   		      100	     90
+   
+   EMPLOYEE_ID FIRST_NAME		 LAST_NAME
+   ----------- -------------------- -------------------------
+   EMAIL			  PHONE_NUMBER	       HIRE_DATE JOB_ID 	SALARY
+   ------------------------- -------------------- --------- ---------- ----------
+   COMMISSION_PCT MANAGER_ID DEPARTMENT_ID
+   -------------- ---------- -------------
+   
+   
+   SQL> 
+   ```
 
+   
 
+9. The query returns the first 5 rows from table departments using the same SQL Macro function.
+
+   ```
+   SQL> <copy>select * from first_n_rows(5,departments);</copy>
+   
+   DEPARTMENT_ID DEPARTMENT_NAME		     MANAGER_ID LOCATION_ID
+   ------------- ------------------------------ ---------- -----------
+   	   10 Administration			    200        1700
+   	   20 Marketing 			    201        1800
+   	   30 Purchasing			    114        1700
+   	   40 Human Resources			    203        2400
+   	   50 Shipping				    121        1500
+   
+   SQL> 
+   ```
+
+   
+
+10. Use the `USER_PROCEDURES` view to display the new values of the `SQL_MACRO` column.
+
+    ```
+    SQL> COL object_name FORMAT A30
+    SQL> SELECT object_name, sql_macro, object_type FROM user_procedures;
+    
+    OBJECT_NAME		       SQL_MA OBJECT_TYPE
+    ------------------------------ ------ -------------
+    SECURE_DML		       NULL   PROCEDURE
+    ADD_JOB_HISTORY 	       NULL   PROCEDURE
+    M_COMMISSION		       SCALAR FUNCTION
+    F_FULL_NAME		       NULL   FUNCTION
+    M_FULL_NAME		       SCALAR FUNCTION
+    F_COMMISSION		       NULL   FUNCTION
+    BUDGET			       TABLE  FUNCTION
+    BUDGET_PER_JOB		       TABLE  FUNCTION
+    FIRST_N_ROWS		       TABLE  FUNCTION
+    SECURE_EMPLOYEES		      TRIGGER
+    UPDATE_JOB_HISTORY		      TRIGGER
+    
+    11 rows selected.
+    
+    SQL> 
+    ```
+
+    
 
 
 You may proceed to the next lab.
 
 ## Learn More
 
-*(optional - include links to docs, white papers, blogs, etc)*
-
-* [URL text 1](http://docs.oracle.com)
-* [URL text 2](http://docs.oracle.com)
+* [SQL Macros](https://docs.oracle.com/en/database/oracle/oracle-database/20/ftnew/sql-macros1.html)
+* [SQL_MACROS Clause](https://docs.oracle.com/en/database/oracle/oracle-database/20/lnpls/plsql-language-elements.html#GUID-292C3A17-2A4B-4EFB-AD38-68DF6380E5F7)
 
 ## Acknowledgements
-* **Author** - <Name, Title, Group>
+* **Author** - Minqiao Wang, Oracle Database Product Management
 * **Contributors** -  <Name, Group> -- optional
-* **Last Updated By/Date** - <Name, Group, Month Year>
-* **Workshop (or Lab) Expiry Date** - <Month Year> -- optional, use this when you are using a Pre-Authorized Request (PAR) URL to an object in Oracle Object Store.
+* **Last Updated By/Date** - Minqiao Wang, Oracle Database Product Management, Oct. 2020
 
 ## See an issue?
 Please submit feedback using this [form](https://apexapps.oracle.com/pls/apex/f?p=133:1:::::P1_FEEDBACK:1). Please include the *workshop name*, *lab* and *step* in your request.  If you don't see the workshop name listed, please enter it manually. If you would like us to follow up with you, enter your email in the *Feedback Comments* section.
