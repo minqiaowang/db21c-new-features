@@ -7,7 +7,7 @@ In this lab you can learn how to use the SQL Macros  (SQM) to increase developer
 Estimated Lab Time: 30 minutes
 
 ### About SQL Macros
-You can create SQL Macros (SQM) to factor out common SQL expressions and statements into reusable, parameterized constructs that can be used in other SQL statements. SQL macros can either be scalar expressions, typically used in `SELECT` lists, `WHERE`, `GROUP` `BY` and `HAVING` clauses, to encapsulate calculations and business logic or can be table expressions, typically used in a `FROM` clause.
+You can create SQL Macros (SQM) to factor out common SQL expressions and statements into reusable, parameterized constructs that can be used in other SQL statements. SQL macros can either be scalar expressions, typically used in `SELECT` lists, `WHERE`, `GROUP BY` and `HAVING` clauses, to encapsulate calculations and business logic or can be table expressions, typically used in a `FROM` clause.
 
 ### Objectives
 
@@ -23,7 +23,7 @@ The prerequisites for the lab
 
 ## **STEP 1**: Prepare the environment
 
-Step 1 opening paragraph.
+Assume that you have already create a 20c database instance with a pdb named PDB1.
 
 1. Connect to the PDB1.
 
