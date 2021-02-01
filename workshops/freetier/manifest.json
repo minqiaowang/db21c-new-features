@@ -2,11 +2,6 @@
     "workshoptitle": "Oracle Database 21c New Features",
     "tutorials": [
         {
-            "title": "Introduction",
-            "description": "The Introduction is always second. The title and contents menu title match for the Introduction.",
-            "filename": "../../introduction/introduction.md"
-        },
-        {
             "title": "Lab 1: SQl Macros",
             "description": "Labs that follow the introduction are numbered, starting with Lab 1",
             "filename": "../../sql-macros/sql-macros.md"
