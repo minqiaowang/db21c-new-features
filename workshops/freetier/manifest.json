@@ -2,7 +2,7 @@
     "workshoptitle": "Oracle Database 21c New Features",
     "tutorials": [
         {
-            "title": "Lab 1: SQl Macros",
+            "title": "Lab 1: SQL Macros",
             "description": "Labs that follow the introduction are numbered, starting with Lab 1",
             "filename": "../../sql-macros/sql-macros.md"
         },
